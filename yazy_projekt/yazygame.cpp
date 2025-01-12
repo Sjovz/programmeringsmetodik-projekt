@@ -11,6 +11,7 @@ void yazygame::rollAllDice()
     {
         tarning = rand() % 6 + 1;
     }
+    printDice();
 }
 
 void yazygame::rerollDice(bool reroll[5])
