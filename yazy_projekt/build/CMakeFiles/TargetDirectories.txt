@@ -1,0 +1,3 @@
+/Users/eriksawander/school/prom/porj/programmeringsmetodik-projekt/programmeringsmetodik-projekt/yazy_projekt/build/CMakeFiles/yazy.dir
+/Users/eriksawander/school/prom/porj/programmeringsmetodik-projekt/programmeringsmetodik-projekt/yazy_projekt/build/CMakeFiles/edit_cache.dir
+/Users/eriksawander/school/prom/porj/programmeringsmetodik-projekt/programmeringsmetodik-projekt/yazy_projekt/build/CMakeFiles/rebuild_cache.dir

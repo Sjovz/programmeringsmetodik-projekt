@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 20)
 include_directories(/opt/homebrew/Cellar/raylib/5.5/include)
 link_directories(/opt/homebrew/Cellar/raylib/5.5/lib)
 
-add_executable(yazy main.cpp yazygame.cpp run_functions.cpp)
+add_executable(yazy main.cpp yazygame.cpp run_functions.cpp game.cpp clickables.cpp)
 
 # Link Raylib library
 target_link_libraries(yazy raylib)
