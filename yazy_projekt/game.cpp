@@ -1,4 +1,5 @@
 #include "game.h"
+#include "clickable.h"
 #include "raylib.h"
 #include "yazygame.h"
 #include <iostream>
@@ -13,20 +14,25 @@ void Game::init()
 {
     InitWindow(800, 600, "game");
     SetTargetFPS(60);
-    yazygame test;
-    Rectangle rect{20, 20, 100, 50};
-    Clickable bob(rect, [](){}, this);
-    loop();
 }
 
-void Game::add_clickable(Clickable* clicker){clickables.push_back(clicker);}
+void Game::add_drawable(Drawable* drawable){drawables.push_back(drawable);}
 
-void Game::remove_clickable(Clickable* clicker) {
-    auto it = std::find(clickables.begin(), clickables.end(), clicker);
-    if (it != clickables.end()) {
-       clickables.erase(it);  // Remove the element from clickables
+void Game::remove_drawable(int id)
+{
+    auto it = std::find_if(drawables.begin(), drawables.end(), [id](const auto & drawable){return drawable->get_id() == id;});
+    if (it != drawables.end()) {
+       drawables_to_remove.push_back(*it);
+       drawables.erase(it);
     }
-    clickables_to_remove.push_back(clicker);
+}
+
+void Game::remove_drawable(Drawable* drawable) {
+    auto it = std::find(drawables.begin(), drawables.end(), drawable);
+    if (it != drawables.end()) {
+       drawables.erase(it);
+    }
+    drawables_to_remove.push_back(drawable);
 }
 
 void Game::process_actions() 
@@ -42,11 +48,11 @@ void Game::add_action(std::function<void()> action)
     deffered_actions.push_back(action);
 }
 
-void Game::remove_clickables()
+void Game::remove_drawables()
 {
-    for (Clickable* clickable : clickables_to_remove) 
-        delete clickable;  // Delete each Clickable object
-    clickables_to_remove.clear();
+    for (Drawable* drawable: drawables_to_remove) 
+        delete drawable;  
+    drawables_to_remove.clear();
 }
 
 void Game::loop()
@@ -55,16 +61,16 @@ void Game::loop()
     {
         BeginDrawing();
         ClearBackground(RAYWHITE); 
-        for(auto clicker: clickables)        
+        for(auto drawable: drawables)        
         {
-            clicker->draw();
+            drawable->draw();
         }
         EndDrawing();
-        for(auto clicker: clickables)        
+        for(auto drawable: drawables)        
         {
-            clicker->update();
+            drawable->update();
         }
         process_actions();
-        remove_clickables();
+        remove_drawables();
     }
 }

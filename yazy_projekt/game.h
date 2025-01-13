@@ -16,23 +16,24 @@
 #include <functional>
 #include <vector>
 
-// this is a fucking event listener with way too many responsibilities 
+// right now this is both the event listener and the game itself, might want to split responsibilities 
+// figure out what should be public and private in all of the classes actually 
 class Game {
 public:
     Game();
-    void add_clickable(Clickable* clicker); 
-    void remove_clickable(Clickable* clicker); 
-    void remove_clickables();
+    void add_drawable(Drawable* drawable); 
+    void remove_drawable(Drawable* drawable); 
+    void remove_drawable(int id);
+    void remove_drawables();
     void add_action(std::function<void()> action);
     void process_actions(); 
+    void loop();
 private:
     void init();
-    void loop();
     std::vector<std::function<void()>> deffered_actions;
     // make this more polymorphy 
-    std::vector<Clickable*> clickables_to_remove;
-    std::vector<Clickable*> clickables;
+    std::vector<Drawable*> drawables;
+    std::vector<Drawable*> drawables_to_remove;
     // add a destructor 
 };
-
 #endif 
