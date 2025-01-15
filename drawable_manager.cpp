@@ -26,3 +26,10 @@ void Drawable_manager::remove_drawables()
         delete drawable;  
     drawables_to_remove.clear();
 }
+
+Drawable_manager::~Drawable_manager()
+{
+    for(Drawable* drawable: drawables)
+        remove_drawable(drawable);
+    remove_drawables();
+}

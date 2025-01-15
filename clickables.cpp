@@ -17,9 +17,9 @@ void::Drawable::draw()
     DrawTexturePro(
                     texture,
                     sourceRect,
-                    rect,      // Using rect directly as destination rectangle
-                    {0, 0},    // Origin point (0,0 for top-left)
-                    0.0f,      // Rotation (in degrees)
+                    rect,      
+                    {0, 0},   
+                    0.0f,    
                     WHITE
                 );
     else 

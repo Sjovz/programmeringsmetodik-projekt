@@ -1,13 +1,12 @@
 /************************************************************************************
  * File Name: game.h
  * Author: Erik Sawander
- * Date: 2025-01-12
- * Version: 1.0
+ * Date: 2025-01-15
+ * Version: 2.0
  *
- * implements the IO part of the game 
- * philosophy was to make a game not a game engine 
- * simple and event driven, and the only event type is clicking on things
- * 
+ * Implements a basic game engine design 
+ * strictly event based, and in this the only event is clicking on clickables 
+ * note that this is tightly coupled with the factory class click_engine, does nothing without it 
  ************************************************************************************/
 #ifndef GAME_H
 #define GAME_H
@@ -16,8 +15,11 @@ class Game {
 friend class click_engine;
 public:
     Game();
+    // removes a drawable object by id
     void remove_drawable(int id);
+    // adds a drawable object by it's pointer (depreciated behaviour) 
     void remove_drawable(Drawable* drawable); 
+    // starts the games loop
     void loop();
 private:
     Drawable_manager drawable_manager;
