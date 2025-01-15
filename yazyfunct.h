@@ -7,17 +7,19 @@
 #include <vector>
 #include <numeric>
 
-class yazygame
+class yazyfunct
 {
 public:
     int dice[5];
     bool categoryUsed[13];
     int scores[13];
 
-    yazygame();
+    yazyfunct();
     void rollAllDice();
     void rerollDice(bool reroll[5]);
     void printDice() const;
+    int getDiceValue(int index) const;
+    const int* getDiceArray() const;
 
     //rules
     int same_number(int match, const int dice[5]);

@@ -1,7 +1,7 @@
 #include "game.h"
 #include "clickable.h"
 #include "raylib.h"
-#include "yazygame.h"
+#include "yazyfunct.h"
 #include <iostream>
 
 Game::Game()
