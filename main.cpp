@@ -76,6 +76,7 @@ private:
                 game.remove_drawable(id);
                 score++;
                 std::cout << "Score: " << score << std::endl;
+                spawn_box();
                 spawn_box();  // Spawn next box immediately
             }, 
             &game, 

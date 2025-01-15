@@ -7,7 +7,7 @@ Drawable::Drawable(Rectangle rect, int id, Game* game) : rect(rect), id(id), own
     owner->add_drawable(this); 
 }
 
-Drawable::Drawable(Rectangle rect, int id, Game* game, Texture2D texture) : rect(rect), id(id), owner(game), has_texture(true), texture(texture)
+Drawable::Drawable(Rectangle rect, int id, Game* game, Texture2D texture) : rect(rect), id(id), owner(game), has_texture(true), texture(texture) 
 {
     owner->add_drawable(this); 
 }
@@ -47,17 +47,14 @@ void click_engine::make_drawable(Rectangle rect, int id, Game* game)
 {
     new Drawable(rect ,id, game);
 }
-
 void click_engine::make_clickable(Rectangle rect, std::function<void()> onClick, Game* owner, int id)
 {
     new Clickable(rect, onClick, owner, id);
 }
-
 void click_engine::make_drawable(Rectangle rect, int id, Game* game, Texture2D texture)
 {
     new Drawable(rect ,id, game, texture);
 }
-
 void click_engine::make_clickable(Rectangle rect, std::function<void()> onClick, Game* owner, int id, Texture2D texture)
 {
     new Clickable(rect, onClick, owner, id, texture);
