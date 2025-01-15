@@ -14,7 +14,7 @@ void yazyfunct::rollAllDice()
     printDice();
 }
 
-void yazyfunct::rerollDice(std::vector<int> reroll_flags)
+void yazyfunct::rerollDice(std::vector<bool> reroll_flags)
 {
     for(int i = 0; i < 5; ++i)
     {
@@ -75,10 +75,6 @@ int yazyfunct::yazy(int dice[5])
     else 
         return 0;
 }
-void yazyfunct::change_flag(bool flag) {
-    flag = !flag;
-    std::cout << "Roll dice set to : " << flag << std::endl;
 
-}
 
 

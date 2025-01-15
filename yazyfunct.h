@@ -19,8 +19,6 @@ public:
     void rerollDice(std::vector<bool> reroll_flags);
     void printDice() const;
 
-    void change_flag(bool flag);
-
     //rules
     int same_number(int match, const int dice[5]);
     int same_three(int match, const int dice[5]);
