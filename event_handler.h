@@ -1,3 +1,11 @@
+/************************************************************************************
+ * File Name: event_handler.h
+ * Author: Erik Sawander
+ * Date: 2025-01-15
+ * Version: 2.0
+ *
+ * allows for the handling of deffered actions 
+ ************************************************************************************/
 #ifndef EVENT_HANDLER_H
 #define EVENT_HANDLER_H
 #include <functional>

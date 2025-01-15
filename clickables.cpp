@@ -2,10 +2,13 @@
 #include "game.h"
 #include "event_handler.h"
 
-Drawable::Drawable(Rectangle rect, int id, Event_handler* handler) : rect(rect), id(id), handler(handler), has_texture(false)
+Drawable::Drawable(Rectangle rect, int id, Event_handler* handler) : rect(rect), id(id), handler(handler), has_texture(false), has_text(false)
 {}
 
-Drawable::Drawable(Rectangle rect, int id, Event_handler* handler, Texture2D texture) : rect(rect), id(id), handler(handler), has_texture(true), texture(texture) 
+Drawable::Drawable(Rectangle rect, int id, Event_handler* handler, Texture2D texture) : rect(rect), id(id), handler(handler), has_texture(true), texture(texture), has_text(false)
+{}
+
+Drawable::Drawable(Rectangle rect, int id, Event_handler* handler, std::string text, float font_size) : rect(rect), id(id), handler(handler), has_texture(false), has_text(true), text(text), font_size(font_size)
 {}
 
 int::Drawable::get_id() {return id;}
@@ -17,17 +20,20 @@ void::Drawable::draw()
     DrawTexturePro(
                     texture,
                     sourceRect,
-                    rect,      // Using rect directly as destination rectangle
-                    {0, 0},    // Origin point (0,0 for top-left)
-                    0.0f,      // Rotation (in degrees)
+                    rect,      
+                    {0, 0},   
+                    0.0f,    
                     WHITE
                 );
+    else if (has_text)
+         DrawTextEx(GetFontDefault(), text.c_str(), {rect.x, rect.y}, 20.0f , 1.0f, color);
     else 
-        DrawRectangleRec(rect, color);
+    DrawRectangleRec(rect, color);
 }
 
 Clickable::Clickable(Rectangle rect, std::function<void()> onClick, Event_handler* handler, int id) : Drawable(rect, id, handler), onClick(onClick) {}
 Clickable::Clickable(Rectangle rect, std::function<void()> onClick, Event_handler* handler, int id, Texture2D texture) : Drawable(rect, id, handler, texture), onClick(onClick) {}
+Clickable::Clickable(Rectangle rect, std::function<void()> onClick, Event_handler* handler, int id, std::string text, float font_size) : Drawable(rect, id, handler, text, font_size), onClick(onClick) {}
 
 // maybe something else should be distrubuting the mouse position? kind of inneficient 
 void Clickable::update() {
@@ -56,4 +62,14 @@ void click_engine::make_clickable(Rectangle rect, std::function<void()> onClick,
 {
     Clickable* drawable = new Clickable(rect, onClick, &owner.event_handler, id, texture);
     owner.drawable_manager.add_drawable(drawable);
+}
+void click_engine::make_clickable(Rectangle rect, std::function<void()> onClick, Game& owner, int id, std::string text, float font_size)
+{
+    Clickable* drawable = new Clickable(rect, onClick, &owner.event_handler, id, text, font_size);
+    owner.drawable_manager.add_drawable(drawable);
+}
+void click_engine::make_drawable(Rectangle rect, int id, Game& game, std::string text, float font_size)
+{
+    Drawable* drawable = new Drawable(rect ,id, &game.event_handler, text, font_size);
+    game.drawable_manager.add_drawable(drawable);
 }
