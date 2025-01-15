@@ -129,18 +129,18 @@ class YazyGame {
 
         click_engine::make_drawable(sum_text, sum_text_id, game, "Sum");
 
-        click_engine::make_clickable(ones_button,[this]() {/* logic.saveOnesScore(); */}, game, ones_button_id);
-        click_engine::make_clickable(twoes_button, [this]() {/* logic.saveTwosScore(); */}, game, twos_button_id);
-        click_engine::make_clickable(threes_button, [this]() {/* logic.saveThreesScore(); */}, game, threes_button_id);
-        click_engine::make_clickable(fours_button, [this]() {/* logic.saveFoursScore(); */}, game, fours_button_id);
-        click_engine::make_clickable(fives_button, [this]() {/* logic.saveFivesScore(); */}, game, fives_button_id);
-        click_engine::make_clickable(sixes_button, [this]() {/* logic.saveSixesScore(); */}, game, six_button_id);
-        click_engine::make_clickable(three_of_a_kind_button, [this]() {/* logic.saveThreeOfAKindScore(); */}, game, three_of_a_kind_button_id);
-        click_engine::make_clickable(four_of_a_kind_button, [this]() {/* logic.saveFourOfAKindScore(); */}, game, four_of_a_kind_button_id);
-        click_engine::make_clickable(full_house_button, [this]() {/* logic.saveFullHouseScore(); */}, game, full_house_button_id);
-        click_engine::make_clickable(small_straight_button, [this]() {/* logic.saveSmallStraightScore(); */}, game, small_straight_button_id);
-        click_engine::make_clickable(large_straight_button, [this]() {/* logic.saveLargeStraightScore(); */}, game, large_straight_button_id);
-        click_engine::make_clickable(yazy_button, [this]() {/* logic.saveYazyScore(); */}, game, yazy_button_id);
+        click_engine::make_clickable(ones_button,[this]() { logic.saveOnesScore(); }, game, ones_button_id);
+        click_engine::make_clickable(twoes_button, [this]() { logic.saveTwosScore(); }, game, twos_button_id);
+        click_engine::make_clickable(threes_button, [this]() { logic.saveThreesScore(); }, game, threes_button_id);
+        click_engine::make_clickable(fours_button, [this]() { logic.saveFoursScore(); }, game, fours_button_id);
+        click_engine::make_clickable(fives_button, [this]() { logic.saveFivesScore(); }, game, fives_button_id);
+        click_engine::make_clickable(sixes_button, [this]() { logic.saveSixesScore(); }, game, six_button_id);
+        click_engine::make_clickable(three_of_a_kind_button, [this]() { logic.saveThreeOfAKindScore(); }, game, three_of_a_kind_button_id);
+        click_engine::make_clickable(four_of_a_kind_button, [this]() { logic.saveFourOfAKindScore(); }, game, four_of_a_kind_button_id);
+        click_engine::make_clickable(full_house_button, [this]() { logic.saveFullHouseScore(); }, game, full_house_button_id);
+        click_engine::make_clickable(small_straight_button, [this]() { logic.saveSmallStraightScore(); }, game, small_straight_button_id);
+        click_engine::make_clickable(large_straight_button, [this]() { logic.saveLargeStraightScore(); }, game, large_straight_button_id);
+        click_engine::make_clickable(yazy_button, [this]() { logic.saveYazyScore(); }, game, yazy_button_id);
 
     };
 };
