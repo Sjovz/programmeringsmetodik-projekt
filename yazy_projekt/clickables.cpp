@@ -6,7 +6,7 @@ Drawable::Drawable(Rectangle rect, int id, Game* game) : rect(rect), id(id), own
 {
     owner->add_drawable(this); 
 }
-
+// TODO:
 Drawable::Drawable(Rectangle rect, int id, Game* game, Texture2D texture) : rect(rect), id(id), owner(game), has_texture(true), texture(texture) 
 {
     owner->add_drawable(this); 
