@@ -21,8 +21,8 @@ static void make_clickable(Rectangle rect, std::function<void()> onClick, Game& 
 static void make_clickable(Rectangle rect, std::function<void()> onClick, Game& owner, int id, Texture2D texture);
 static void make_drawable(Rectangle rect, int id, Game& game);
 static void make_drawable(Rectangle rect, int id, Game& game, Texture2D texture);
-static void make_clickable(Rectangle rect, std::function<void()> onClick, Game& owner, int id, std::string text);
-static void make_drawable(Rectangle rect, int id, Game& game, std::string text);
+static void make_clickable(Rectangle rect, std::function<void()> onClick, Game& owner, int id, std::string text, float font_size = 5.0f);
+static void make_drawable(Rectangle rect, int id, Game& game, std::string text, float font_size = 5.0f);
 ```
 
 using only this you should be able to create a basic but functioning game
