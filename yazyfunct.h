@@ -10,6 +10,7 @@
 class yazyfunct
 {
 private:
+    // persistent scores
     int ones_score = 0;
     int twos_score = 0;
     int threes_score = 0;
@@ -25,7 +26,7 @@ private:
 
 
 public:
-    int dice[5];
+    int dice[5] = {1, 2, 3, 4, 5};
     bool categoryUsed[13];
     int scores[13];
 
@@ -34,7 +35,7 @@ public:
     void rerollDice(std::vector<bool> reroll_flags);
     void printDice() const;
 
-    // save score functions very proffesional
+    // save score functions very professional
     void saveOnesScore();
     void saveTwosScore();
     void saveThreesScore();
