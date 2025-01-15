@@ -23,8 +23,6 @@ class Game;
 // a factory class should be used to construct these objects and make sure the pointers are handled appropriately
 class Drawable {
 friend class click_engine;
-friend class Drawable; 
-// add sprites to this 
 public: 
     int get_id();
     // Default update does nothing
@@ -33,7 +31,7 @@ public:
 protected:
     Drawable(Rectangle rect, int id, Event_handler* handler);
     Drawable(Rectangle rect, int id, Event_handler* handler, Texture2D texture);
-    
+    Drawable(Rectangle rect, int id, Event_handler* handler, std::string text, float font_size = 5.0f);
     void setColor(Color newColor) {
         color = newColor;
     }
@@ -44,6 +42,9 @@ protected:
     Event_handler* handler;
     Texture2D texture;
     bool has_texture;
+    bool has_text;
+    float font_size;
+    std::string text;
 };
 
 class Clickable : public Drawable {
@@ -55,6 +56,7 @@ public:
 protected:
     Clickable(Rectangle rect, std::function<void()> onClick, Event_handler* handler, int id);  
     Clickable(Rectangle rect, std::function<void()> onClick, Event_handler* handler, int id, Texture2D texture);  
+    Clickable(Rectangle rect, std::function<void()> onClick, Event_handler* handler, int id, std::string text, float font_size);  
     std::function<void()> onClick;
 };
 
@@ -65,5 +67,7 @@ public:
     static void make_clickable(Rectangle rect, std::function<void()> onClick, Game& owner, int id, Texture2D texture);
     static void make_drawable(Rectangle rect, int id, Game& game);
     static void make_drawable(Rectangle rect, int id, Game& game, Texture2D texture);
+    static void make_clickable(Rectangle rect, std::function<void()> onClick, Game& owner, int id, std::string text, float font_size = 5.0f);
+    static void make_drawable(Rectangle rect, int id, Game& game, std::string text, float font_size = 5.0f);
 };
 #endif // !CLICKABLE_H
