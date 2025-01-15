@@ -9,21 +9,27 @@
 #include "yazyfunct.h"
 #include "game.h"
 
-
 class YazyGame {
 private:
     Game& game;
-    yazyfunct logic; // Using the game logic class
+    yazyfunct logic; // Core game logic class
     const int DICE_COUNT = 5;
 
+    // UI elements
     Rectangle reset_button;
     Rectangle roll_button;
-    int reset_button_id;
-    int roll_button_id;
+    Rectangle reroll_button;
 
-    Rectangle reroll_buttons[5]; // Reroll buttons for individual dice ?
-    bool reroll_flags[5] = {false, false, false, false, false}; // Flags for dice to reroll and not to reroll
+    int reset_button_id = 0;
+    int roll_button_id = 1;
+    int reroll_button_id = 2;
 
+    int dice_id[6] = {3, 4, 5, 6, 7, 8};
+
+    // Flags for dice to reroll
+    bool reroll_flags[5] = {false, false, false, false, false};
+
+    // Dice textures
     Texture2D dice_textures[6];
 
     void reset_game() {
@@ -31,11 +37,12 @@ private:
         for (bool& reroll_flag : reroll_flags) {
             reroll_flag = false;
         }
-        std::cout << "Game reset haha hoppas jag" << std::endl;
+        std::cout << "Game reset!" << std::endl;
     }
 
     void roll_all_dice() {
         logic.rollAllDice();
+        std::cout << "Rolled all dice!" << std::endl;
     }
 
     void reroll_selected_dice() {
@@ -43,30 +50,41 @@ private:
         for (bool& reroll_flag : reroll_flags) {
             reroll_flag = false; // Reset reroll flags
         }
+        std::cout << "Rerolled selected dice!" << std::endl;
+    }
+
+    void toggle_reroll_flag(int index) {
+        reroll_flags[index] = !reroll_flags[index];
+        std::cout << "Toggled reroll for die " << index + 1 << ": " << (reroll_flags[index] ? "ON" : "OFF") << std::endl;
     }
 
 public:
     YazyGame(Game& game) : game(game) {
+        // Initialize buttons
         reset_button = {10.0f, 10.0f, 100.0f, 50.0f};
         roll_button = {300.0f, 500.0f, 200.0f, 50.0f};
+        reroll_button = {300.0f, 560.0f, 200.0f, 50.0f};
 
-        float dice_x_start = 250.0f; // Starting position for dice, CHANGE TO MAKE LOOKEY NICEYNICE
-        for (int i = 0; i < DICE_COUNT; ++i) {
-            reroll_buttons[i] = {dice_x_start + i * 70.0f, 450.0f, 50.0f, 50.0f};
-        }
-
-        // Load dice textures, auto does dice1, dice2... hopefully
+        // Load dice textures
         for (int i = 0; i < 6; ++i) {
             std::string path = "C:/Users/Ellev/CLionProjects/yazy/Data/dice" + std::to_string(i + 1) + ".png";
             dice_textures[i] = LoadTexture(path.c_str());
         }
 
-        // Make buttons clickable
+        // Set up clickable buttons
         click_engine::make_clickable(reset_button, [this]() { reset_game(); }, game, reset_button_id);
         click_engine::make_clickable(roll_button, [this]() { roll_all_dice(); }, game, roll_button_id);
+        click_engine::make_clickable(reroll_button, [this]() { reroll_selected_dice(); }, game, reroll_button_id);
+
+        // Make dice toggleable for rerolling
+        float dice_x_start = 250.0f;
+        for (int i = 0; i < DICE_COUNT; ++i) {
+            Rectangle die_area = {dice_x_start + i * 70.0f, 400.0f, 50.0f, 50.0f};
+            click_engine::make_clickable(die_area, [this, i]() { toggle_reroll_flag(i); }, game, dice_id[i]);
+        }
     }
 
-    ~YazyGame() { // no memory leak pls
+    ~YazyGame() {
         for (int i = 0; i < 6; ++i) {
             UnloadTexture(dice_textures[i]);
         }
@@ -84,19 +102,23 @@ public:
         DrawRectangleRec(roll_button, GREEN);
         DrawText("Roll All", roll_button.x + 10.0f, roll_button.y + 10.0f, 20, WHITE);
 
-        // Draw dice and reroll buttons
-        float dice_x_start = 250.0f; // Starting position for dice
+        // Draw reroll button
+        DrawRectangleRec(reroll_button, BLUE);
+        DrawText("Roll Selected", reroll_button.x + 10.0f, reroll_button.y + 10.0f, 20, WHITE);
+
+        // Draw dice and indicate reroll flags
+        float dice_x_start = 250.0f;
         for (int i = 0; i < DICE_COUNT; ++i) {
-            int dice_value = logic.getDiceValue(i) - 1; // Get the dice value from yazyfunct
+            int dice_value = logic.getDiceValue(i) - 1; // Get the dice value
             DrawTexture(dice_textures[dice_value], dice_x_start + i * 70.0f, 400.0f, WHITE);
 
-            // Draw reroll buttons below each die
-            Color button_color = reroll_flags[i] ? BLUE : LIGHTGRAY;
-            DrawRectangleRec(reroll_buttons[i], button_color);
-            DrawText("Reroll", reroll_buttons[i].x + 5.0f, reroll_buttons[i].y + 15.0f, 20, BLACK);
+            // Indicate reroll status with a border
+            if (reroll_flags[i]) {
+                DrawRectangleLinesEx({dice_x_start + i * 70.0f, 400.0f, 50.0f, 50.0f}, 2, RED);
+            }
         }
 
-        // Draw scores example: same_number for ones,  adde rest later
+        // Example: Draw score for ones
         int ones_score = logic.same_number(1, logic.getDiceArray());
         DrawText(("Score for Ones: " + std::to_string(ones_score)).c_str(), 10, 100, 20, BLACK);
 
@@ -105,8 +127,14 @@ public:
 };
 
 int main() {
+    // Initialize the game engine
     Game game;
+
+    // Initialize YazyGame
     YazyGame yazy_game(game);
+
+    // Game loop
+    game.loop();
 
     return 0;
 }
