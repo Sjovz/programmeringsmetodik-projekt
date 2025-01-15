@@ -53,18 +53,21 @@ class YazyGame {
     Rectangle large_straight_button = {750, 420, 30, 25};
     Rectangle yazy_button = {750, 460, 30, 30};
 
+    // roll buttons id's
     const int roll_all_button_id = 0;
     const int roll_some_button_id = 1;
 
+    // dice buttons id's
     const int dice1_button_id = 2;
     const int dice2_button_id = 3;
     const int dice3_button_id = 4;
     const int dice4_button_id = 5;
     const int dice5_button_id = 6;
 
-    const int roll_all_text_id = 7; // not used
-    const int roll_some_text_id = 8; // not used
+    //const int roll_all_text_id = 7; // not used
+    //const int roll_some_text_id = 8; // not used
 
+    //the score text id's
     const int ones_text_id = 9;
     const int twos_text_id = 10;
     const int threes_text_id = 11;
@@ -77,9 +80,9 @@ class YazyGame {
     const int small_straight_text_id = 18;
     const int large_straight_text_id = 19;
     const int yazy_text_id = 20;
-
     const int sum_text_id = 21;
 
+    // the save score buttons id's
     const int ones_button_id = 22;
     const int twos_button_id = 23;
     const int threes_button_id = 24;
@@ -93,8 +96,7 @@ class YazyGame {
     const int large_straight_button_id = 32;
     const int yazy_button_id = 33;
 
-    const int sum_button_id = 34;
-
+    // dice png's converted to 2d textures
     Texture2D dice1_texture = LoadTexture("C:/Users/Ellev/ClionProjects/programmeringsmetodik-projekt/Data/dice1.png");
     Texture2D dice2_texture = LoadTexture("C:/Users/Ellev/ClionProjects/programmeringsmetodik-projekt/Data/dice2.png");
     Texture2D dice3_texture = LoadTexture("C:/Users/Ellev/ClionProjects/programmeringsmetodik-projekt/Data/dice3.png");
@@ -105,15 +107,18 @@ class YazyGame {
     public:
     YazyGame(Game& game) : game(game) {
 
+        // draw and make clickable rolling buttons
         click_engine::make_clickable(roll_all_button, [this]() { logic.rollAllDice(); }, game, roll_all_button_id, "Roll all");
         click_engine::make_clickable(roll_some_button, [this]() { logic.rerollDice(reroll_flags); }, game, roll_some_button_id, "Reroll");
 
+        // draw and make clickable dices
         click_engine::make_clickable(dice1_button, [this]() {reroll_flags[0] = !reroll_flags[0]; std::cout<< "Dice 1 reroll = " << reroll_flags[0] << std::endl;}, game, dice1_button_id, dice1_texture);
         click_engine::make_clickable(dice2_button, [this]() {reroll_flags[1] = !reroll_flags[1]; std::cout<< "Dice 2 reroll = " << reroll_flags[1] << std::endl;}, game, dice2_button_id, dice2_texture);
         click_engine::make_clickable(dice3_button, [this]() {reroll_flags[2] = !reroll_flags[2]; std::cout<< "Dice 3 reroll = " << reroll_flags[2] << std::endl;}, game, dice3_button_id, dice3_texture);
         click_engine::make_clickable(dice4_button, [this]() {reroll_flags[3] = !reroll_flags[3]; std::cout<< "Dice 4 reroll = " << reroll_flags[3] << std::endl;}, game, dice4_button_id, dice4_texture);
         click_engine::make_clickable(dice5_button, [this]() {reroll_flags[4] = !reroll_flags[4]; std::cout<< "Dice 5 reroll = " << reroll_flags[4] << std::endl;}, game, dice5_button_id, dice5_texture);
 
+        // draw score types text and total sum
         click_engine::make_drawable(ones_text, ones_text_id, game, "Ones");
         click_engine::make_drawable(twoes_text, twos_text_id, game, "Twoes");
         click_engine::make_drawable(threes_text, threes_text_id, game, "Threes");
@@ -126,9 +131,9 @@ class YazyGame {
         click_engine::make_drawable(small_straight_text, small_straight_text_id, game, "Small straight");
         click_engine::make_drawable(large_straight_text, large_straight_text_id, game, "Large straight");
         click_engine::make_drawable(yazy_text, yazy_text_id, game, "Yazy");
-
         click_engine::make_drawable(sum_text, sum_text_id, game, "Sum");
 
+        // draw and make clickable score saving buttons
         click_engine::make_clickable(ones_button,[this]() { logic.saveOnesScore(); }, game, ones_button_id);
         click_engine::make_clickable(twoes_button, [this]() { logic.saveTwosScore(); }, game, twos_button_id);
         click_engine::make_clickable(threes_button, [this]() { logic.saveThreesScore(); }, game, threes_button_id);

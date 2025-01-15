@@ -76,6 +76,7 @@ int yazyfunct::yazy(int dice[5])
         return 0;
 }
 
+// a whole lotta saving functions
 void yazyfunct::saveOnesScore() {
     ones_score = same_number(1, dice);
     std::cout << "Ones score saved: " << ones_score << std::endl;
@@ -107,49 +108,49 @@ void yazyfunct::saveSixesScore() {
 }
 
 void yazyfunct::saveThreeOfAKindScore() {
-    // Array to help count n amount of dice values present
+    // array to help count amount of dice values present
     int count[7] = {0}; // Indices 0 unused
 
-    // Count the occurrences of each dice value
+    // how many times the dice appear
     for (int i = 0; i < 5; ++i) {
         count[dice[i]]++;
     }
 
-    // Check if any value appears 3 or more times
+    // if dice appear more than 3 times = three of a kind = set corresponding score
     for (int i = 1; i <= 6; ++i) {
         if (count[i] >= 3) {
-            // If valid, calculate the total score as the sum of all dice
+            // score = sum of all same sided dice faces
             three_of_a_kind_score = std::accumulate(dice, dice + 5, 0);
             std::cout << "Three of a Kind score saved: " << three_of_a_kind_score << std::endl;
             return;
         }
     }
 
-    // If no "Three of a Kind" is found, score is 0
+    // if no 3 of a kind, no score
     three_of_a_kind_score = 0;
     std::cout << "No Three of a Kind. Score saved: " << three_of_a_kind_score << std::endl;
 }
 
 void yazyfunct::saveFourOfAKindScore() {
-    // Array to count occurrences of each dice value (1 to 6)
+    // rray to help count the amount of dice values
     int count[7] = {0}; // Indices 0 to 6 (0 unused)
 
-    // Count the occurrences of each dice value
+    // count how many times each dice value is present
     for (int i = 0; i < 5; ++i) {
         count[dice[i]]++;
     }
 
-    // Check if any value appears 4 or more times
+    // if 4 or more dice values present, four of kind = set score
     for (int i = 1; i <= 6; ++i) {
         if (count[i] >= 4) {
-            // If valid, calculate the total score as the sum of all dice
+            // sum of all same sided dice faces
             four_of_a_kind_score = std::accumulate(dice, dice + 5, 0);
             std::cout << "Four of a Kind score saved: " << four_of_a_kind_score << std::endl;
             return;
         }
     }
 
-    // If no "Four of a Kind" is found, score is 0
+    // no four of a kind, score is 0
     four_of_a_kind_score = 0;
     std::cout << "No Four of a Kind. Score saved: " << four_of_a_kind_score << std::endl;
 }
@@ -161,18 +162,18 @@ void yazyfunct::saveFullHouseScore() {
 
 void yazyfunct::saveSmallStraightScore() {
     int result = straight(dice);
-    small_straight_score = (result == 30) ? 30 : 0; // Save 30 points if it's a Small Straight
+    small_straight_score = (result == 30) ? 30 : 0; // use  straight(), if 30 points its a small straight
     std::cout << "Small Straight score saved: " << small_straight_score << std::endl;
 }
 
 void yazyfunct::saveLargeStraightScore() {
     int result = straight(dice);
-    large_straight_score = (result == 40) ? 40 : 0; // Save 40 points if it's a Large Straight
+    large_straight_score = (result == 40) ? 40 : 0; // use straight() to get score, if score == 40 then its a large straight, set score
     std::cout << "Large Straight score saved: " << large_straight_score << std::endl;
 }
 
 void yazyfunct::saveYazyScore() {
-    yazy_score = yazy(dice); // Call the yazy function and save the result
+    yazy_score = yazy(dice);
     std::cout << "Yazy score saved: " << yazy_score << std::endl;
 }
 
