@@ -18,6 +18,9 @@ private:
 
     Rectangle reset_button;
     Rectangle roll_button;
+    int reset_button_id;
+    int roll_button_id;
+
     Rectangle reroll_buttons[5]; // Reroll buttons for individual dice ?
     bool reroll_flags[5] = {false, false, false, false, false}; // Flags for dice to reroll and not to reroll
 
@@ -59,13 +62,8 @@ public:
         }
 
         // Make buttons clickable
-        click_engine::make_clickable(reset_button, [this]() { reset_game(); }, &game);
-        click_engine::make_clickable(roll_button, [this]() { roll_all_dice(); }, &game);
-        for (int i = 0; i < DICE_COUNT; ++i) {
-            click_engine::make_clickable(reroll_buttons[i], [this, i]() {
-                reroll_flags[i] = !reroll_flags[i];
-            }, &game);
-        }
+        click_engine::make_clickable(reset_button, [this]() { reset_game(); }, game, reset_button_id);
+        click_engine::make_clickable(roll_button, [this]() { roll_all_dice(); }, game, roll_button_id);
     }
 
     ~YazyGame() { // no memory leak pls
@@ -109,10 +107,6 @@ public:
 int main() {
     Game game;
     YazyGame yazy_game(game);
-
-    game.loop([&]() {
-        yazy_game.draw();
-    });
 
     return 0;
 }
