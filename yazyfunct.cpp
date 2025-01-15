@@ -1,11 +1,11 @@
-#include "yazygame.h"
+#include "yazyfunct.h"
 
-yazygame::yazygame() : categoryUsed{false}, scores{0}
+yazyfunct::yazyfunct() : categoryUsed{false}, scores{0}
 {
     rollAllDice();
 }
 
-void yazygame::rollAllDice()
+void yazyfunct::rollAllDice()
 {
     for(int &tarning : dice)
     {
@@ -14,18 +14,19 @@ void yazygame::rollAllDice()
     printDice();
 }
 
-void yazygame::rerollDice(bool reroll[5])
+void yazyfunct::rerollDice(std::vector<bool> reroll_flags)
 {
     for(int i = 0; i < 5; ++i)
     {
-        if(reroll[i])
+        if(reroll_flags[i])
           {
             dice[i] = rand() % 6 + 1;
           }
     }
+    printDice();
 }
 
-void yazygame::printDice() const
+void yazyfunct::printDice() const
 {
     for(int tarning : dice)
     {
@@ -34,12 +35,12 @@ void yazygame::printDice() const
     std::cout << std::endl;
 }
 
-int yazygame::same_number(int match, const int dice[5]) // function to determinate how many points you get for matching numbers, ex. ones or twos
+int yazyfunct::same_number(int match, const int dice[5]) // function to determinate how many points you get for matching numbers, ex. ones or twos
 {
     return std::accumulate(dice, dice + 5, 0, [match](int sum, int num){return sum + (num == match ? num : 0);}); 
 }
 
-int yazygame::house(const int dice[5])
+int yazyfunct::house(const int dice[5])
 {
     std::vector<int> numbers = {1, 2, 3, 4, 5, 6};
     auto count_number = [&dice](int value) {
@@ -53,7 +54,7 @@ int yazygame::house(const int dice[5])
     return (has_three && has_two) ? 25 : 0;
 }
 
-int yazygame::straight(int dice[5]) //this is ugly, but it works 
+int yazyfunct::straight(int dice[5]) //this is ugly, but it works
 {
     std::sort(dice, dice + 5);
     auto func = [](int first, int second){return !(second == first + 1);};
@@ -67,11 +68,17 @@ int yazygame::straight(int dice[5]) //this is ugly, but it works
     return 0;
 }
 
-int yazygame::yazy(int dice[5])
+int yazyfunct::yazy(int dice[5])
 {
     if (std::adjacent_find(dice, dice + 5) == dice + 5)
         return 50; 
     else 
         return 0;
 }
+void yazyfunct::change_flag(bool flag) {
+    flag = !flag;
+    std::cout << "Roll dice set to : " << flag << std::endl;
+
+}
+
 

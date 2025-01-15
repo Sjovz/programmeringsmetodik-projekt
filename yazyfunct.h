@@ -7,17 +7,19 @@
 #include <vector>
 #include <numeric>
 
-class yazygame
+class yazyfunct
 {
 public:
     int dice[5];
     bool categoryUsed[13];
     int scores[13];
 
-    yazygame();
+    yazyfunct();
     void rollAllDice();
-    void rerollDice(bool reroll[5]);
+    void rerollDice(std::vector<bool> reroll_flags);
     void printDice() const;
+
+    void change_flag(bool flag);
 
     //rules
     int same_number(int match, const int dice[5]);

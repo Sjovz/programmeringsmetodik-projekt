@@ -3,105 +3,184 @@
 #include <algorithm>
 #include <cstdlib>
 #include <ctime>
+#include <random>
 #include "clickable.h"
 #include "raylib.h"
-#include "yazygame.h"
+#include "yazyfunct.h"
 #include "game.h"
-#include <random>
-
-// all we need to do now is add sprites, animations and set up another layer of abstraction to get the yatzee class to interact the new graphics/click handling class 
-// if we have time we can split the responsibilities better in the game class so that it isnt both the event listener and the game at the same time.
-// and also maybe add an abstract class for the command handling so that its not all gross lamda captures :) 
-
-
-// stupid demo game made by ai
-class ClickGame {
+/*
+class YazyGame {
 private:
     Game& game;
-    std::mt19937 rng;
-    std::uniform_int_distribution<int> x_dist;
-    std::uniform_int_distribution<int> y_dist;
-    const float BOX_WIDTH = 50.0f;
-    const float BOX_HEIGHT = 50.0f;
-    int score = 0;
-    int game_id = 0;
-    Texture2D texture;
-    
-    // Keep track of the "reset" button
+    yazyfunct logic; // Core game logic class
+    const int DICE_COUNT = 5;
+
+    // UI elements
     Rectangle reset_button;
-    int reset_button_id;
+    Rectangle roll_button;
+    Rectangle reroll_button;
 
-public:
-    ClickGame(Game& g, int screen_width = 800, int screen_height = 600)
-        : game(g), 
-          rng(std::random_device{}()),
-          x_dist(0, screen_width - static_cast<int>(50.0f)),
-          y_dist(0, screen_height - static_cast<int>(50.0f)) {
-        
-        // Create persistent reset button at top of screen
-<<<<<<< HEAD
-        reset_button = Rectangle{400.0f, 300.0f, 50.0f, 50.0f};
-=======
-        reset_button = Rectangle{10.0f, 10.0f, 100.0f, 30.0f};
-        // cool comment        
->>>>>>> 2ecd9c2b9637d0a32745339fb181560a1d78bb8b
-        reset_button_id = game_id;
-        game_id++;
-        texture = LoadTexture("C:/Users/Ellev/CLionProjects/yazy/Data/dice1.png");
-        
-        click_engine::make_clickable(reset_button, 
-            [this]() {
-                reset_game();
-            }, 
-            game, 
-            reset_button_id,
-            texture
-        );
+    int reset_button_id = 0;
+    int roll_button_id = 1;
+    int reroll_button_id = 2;
 
-        // Spawn initial box
-        spawn_box();
-    }
+    int dice_id[6] = {3, 4, 5, 6, 7, 8};
 
-private:
-    void spawn_box() {
-        float x = static_cast<float>(x_dist(rng));
-        float y = static_cast<float>(y_dist(rng));
-        
-        Rectangle new_box{x, y, BOX_WIDTH, BOX_HEIGHT};
-        
-        // Generate unique ID for the box
-        int id = game_id;
-        game_id++;
+    // Flags for dice to reroll
+    bool reroll_flags[5] = {false, false, false, false, false};
 
-        // When box is clicked:
-        // 1. Remove this box
-        // 2. Increment score
-        // 3. Spawn a new box
-        click_engine::make_clickable(new_box, 
-            [this, id]() {
-                game.remove_drawable(id);
-                score++;
-                std::cout << "Score: " << score << std::endl;
-                spawn_box();
-                spawn_box();  // Spawn next box immediately
-            }, 
-            game, 
-            id,
-            texture
-        );
-    }
+    // Dice textures
+    Texture2D dice_textures[6];
 
     void reset_game() {
-        score = 0;
-        std::cout << "Game Reset! Score: 0" << std::endl;
-        // Could add additional reset logic here if needed
+        logic = yazyfunct(); // Reset the logic object
+        for (bool& reroll_flag : reroll_flags) {
+            reroll_flag = false;
+        }
+        std::cout << "Game reset!" << std::endl;
     }
+
+    void roll_all_dice() {
+        logic.rollAllDice();
+        std::cout << "Rolled all dice!" << std::endl;
+    }
+
+    void reroll_selected_dice() {
+        logic.rerollDice(reroll_flags);
+        for (bool& reroll_flag : reroll_flags) {
+            reroll_flag = false; // Reset reroll flags
+        }
+        std::cout << "Rerolled selected dice!" << std::endl;
+    }
+
+    void toggle_reroll_flag(int index) {
+        reroll_flags[index] = !reroll_flags[index];
+        std::cout << "Toggled reroll for die " << index + 1 << ": " << (reroll_flags[index] ? "ON" : "OFF") << std::endl;
+    }
+
+public:
+    YazyGame(Game& game) : game(game) {
+        // Initialize buttons
+        reset_button = {10.0f, 10.0f, 100.0f, 50.0f};
+        roll_button = {300.0f, 500.0f, 200.0f, 50.0f};
+        reroll_button = {300.0f, 560.0f, 200.0f, 50.0f};
+
+        // Load dice textures
+        for (int i = 0; i < 6; ++i) {
+            std::string path = "C:/Users/Ellev/CLionProjects/yazy/Data/dice" + std::to_string(i + 1) + ".png";
+            dice_textures[i] = LoadTexture(path.c_str());
+        }
+
+        // Set up clickable buttons
+        click_engine::make_clickable(reset_button, [this]() { reset_game(); }, game, reset_button_id);
+        click_engine::make_clickable(roll_button, [this]() { roll_all_dice(); }, game, roll_button_id);
+        click_engine::make_clickable(reroll_button, [this]() { reroll_selected_dice(); }, game, reroll_button_id);
+
+        // Make dice toggleable for rerolling
+        float dice_x_start = 250.0f;
+        for (int i = 0; i < DICE_COUNT; ++i) {
+            Rectangle die_area = {dice_x_start + i * 70.0f, 400.0f, 50.0f, 50.0f};
+            click_engine::make_clickable(die_area, [this, i]() { toggle_reroll_flag(i); }, game, dice_id[i]);
+        }
+    }
+
+    ~YazyGame() {
+        for (int i = 0; i < 6; ++i) {
+            UnloadTexture(dice_textures[i]);
+        }
+    }
+
+    void draw() {
+        BeginDrawing();
+        ClearBackground(RAYWHITE);
+
+        // Draw reset button
+        DrawRectangleRec(reset_button, RED);
+        DrawText("Reset", reset_button.x + 10.0f, reset_button.y + 10.0f, 20, WHITE);
+
+        // Draw roll button
+        DrawRectangleRec(roll_button, GREEN);
+        DrawText("Roll All", roll_button.x + 10.0f, roll_button.y + 10.0f, 20, WHITE);
+
+        // Draw reroll button
+        DrawRectangleRec(reroll_button, BLUE);
+        DrawText("Roll Selected", reroll_button.x + 10.0f, reroll_button.y + 10.0f, 20, WHITE);
+
+        // Draw dice and indicate reroll flags
+        float dice_x_start = 250.0f;
+        for (int i = 0; i < DICE_COUNT; ++i) {
+            int dice_value = logic.getDiceValue(i) - 1; // Get the dice value
+            DrawTexture(dice_textures[dice_value], dice_x_start + i * 70.0f, 400.0f, WHITE);
+
+            // Indicate reroll status with a border
+            if (reroll_flags[i]) {
+                DrawRectangleLinesEx({dice_x_start + i * 70.0f, 400.0f, 50.0f, 50.0f}, 2, RED);
+            }
+        }
+
+        // Example: Draw score for ones
+        int ones_score = logic.same_number(1, logic.getDiceArray());
+        DrawText(("Score for Ones: " + std::to_string(ones_score)).c_str(), 10, 100, 20, BLACK);
+
+        EndDrawing();
+    }
+};*/
+
+class YazyGame {
+    private:
+    Game& game;
+    yazyfunct logic;
+
+    Rectangle roll_all_button = {400, 200, 50, 20};
+    Rectangle roll_some_button = {200, 200, 50, 20};
+
+    Rectangle dice1_button = {100, 500, 50, 50};
+    Rectangle dice2_button = {200, 500, 50, 50};
+    Rectangle dice3_button = {300, 500, 50, 50};
+    Rectangle dice4_button = {400, 500, 50, 50};
+    Rectangle dice5_button = {500, 500, 50, 50};
+
+    const int roll_all_button_id = 0;
+    const int roll_some_button_id = 1;
+
+    const int dice1_button_id = 2;
+    const int dice2_button_id = 3;
+    const int dice3_button_id = 4;
+    const int dice4_button_id = 5;
+    const int dice5_button_id = 6;
+
+    Texture2D dice1_texture = LoadTexture("C:/Users/Ellev/ClionProjects/yazy/Data/dice1.png");
+    Texture2D dice2_texture = LoadTexture("C:/Users/Ellev/ClionProjects/yazy/Data/dice2.png");
+    Texture2D dice3_texture = LoadTexture("C:/Users/Ellev/ClionProjects/yazy/Data/dice3.png");
+    Texture2D dice4_texture = LoadTexture("C:/Users/Ellev/ClionProjects/yazy/Data/dice4.png");
+    Texture2D dice5_texture = LoadTexture("C:/Users/Ellev/ClionProjects/yazy/Data/dice5.png");
+    Texture2D dice6_texture = LoadTexture("C:/Users/Ellev/ClionProjects/yazy/Data/dice6.png");
+
+
+    public:
+    YazyGame(Game& game) : game(game) {
+        std::vector<bool> reroll_flags = {true, true, true, true, true};
+
+        click_engine::make_clickable(roll_all_button, [this]() { logic.rollAllDice(); }, game, roll_all_button_id);
+        click_engine::make_clickable(roll_some_button, [this, reroll_flags]() { logic.rerollDice(reroll_flags); }, game, roll_some_button_id);
+
+        click_engine::make_clickable(dice1_button, [this, reroll_flags]() {logic.change_flag(reroll_flags[0]); }, game, dice1_button_id, dice1_texture);
+        click_engine::make_clickable(dice2_button, [this, reroll_flags]() {logic.change_flag(reroll_flags[1]); }, game, dice2_button_id, dice2_texture);
+        click_engine::make_clickable(dice3_button, [this, reroll_flags]() {logic.change_flag(reroll_flags[2]); }, game, dice3_button_id, dice3_texture);
+        click_engine::make_clickable(dice4_button, [this, reroll_flags]() {logic.change_flag(reroll_flags[3]); }, game, dice4_button_id, dice4_texture);
+        click_engine::make_clickable(dice5_button, [this, reroll_flags]() {logic.change_flag(reroll_flags[4]); }, game, dice5_button_id, dice5_texture);
+    };
 };
 
-int main() 
-{
+int main() {
+    // Initialize the game engine
     Game game;
-    ClickGame click_game(game);
+
+    // Initialize YazyGame
+    YazyGame yazy_game(game);
+
+    // Game loop
     game.loop();
+
     return 0;
 }
