@@ -70,7 +70,7 @@ int yazyfunct::straight(int dice[5]) //this is ugly, but it works
 
 int yazyfunct::yazy(int dice[5])
 {
-    if (std::adjacent_find(dice, dice + 5) == dice + 5)
+    if (std::adjacent_find(dice, dice + 5)) // this function incorrectly returns max score if called before first dice roll
         return 50; 
     else 
         return 0;
