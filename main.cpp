@@ -131,7 +131,7 @@ class YazyGame {
         click_engine::make_drawable(small_straight_text, small_straight_text_id, game, "Small straight");
         click_engine::make_drawable(large_straight_text, large_straight_text_id, game, "Large straight");
         click_engine::make_drawable(yazy_text, yazy_text_id, game, "Yazy");
-        click_engine::make_drawable(sum_text, sum_text_id, game, "Sum");
+        click_engine::make_drawable(sum_text, sum_text_id, game, "Sum  =");
 
         // draw and make clickable score saving buttons
         click_engine::make_clickable(ones_button,[this]() { logic.saveOnesScore(); }, game, ones_button_id);
