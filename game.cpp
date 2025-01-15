@@ -4,7 +4,6 @@
 #include "yazygame.h"
 #include <iostream>
 
-
 Game::Game()
 {
     init();
@@ -12,7 +11,7 @@ Game::Game()
 
 void Game::init()
 {
-    InitWindow(800, 600, "game");
+    InitWindow(960, 540, "Yazy Game :)");
     SetTargetFPS(60);
 }
 

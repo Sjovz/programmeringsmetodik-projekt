@@ -32,17 +32,17 @@ private:
     int reset_button_id;
 
 public:
-    ClickGame(Game& g, int screen_width = 800, int screen_height = 600) 
+    ClickGame(Game& g, int screen_width = 800, int screen_height = 600)
         : game(g), 
           rng(std::random_device{}()),
           x_dist(0, screen_width - static_cast<int>(50.0f)),
           y_dist(0, screen_height - static_cast<int>(50.0f)) {
         
         // Create persistent reset button at top of screen
-        reset_button = Rectangle{10.0f, 10.0f, 100.0f, 30.0f};
+        reset_button = Rectangle{400.0f, 300.0f, 50.0f, 50.0f};
         reset_button_id = game_id;
         game_id++;
-        texture = LoadTexture("Unknown.jpeg");
+        texture = LoadTexture("C:/Users/Ellev/CLionProjects/yazy/Data/dice1.png");
         
         click_engine::make_clickable(reset_button, 
             [this]() {
