@@ -39,7 +39,12 @@ public:
           y_dist(0, screen_height - static_cast<int>(50.0f)) {
         
         // Create persistent reset button at top of screen
+<<<<<<< HEAD
         reset_button = Rectangle{400.0f, 300.0f, 50.0f, 50.0f};
+=======
+        reset_button = Rectangle{10.0f, 10.0f, 100.0f, 30.0f};
+        // cool comment        
+>>>>>>> 2ecd9c2b9637d0a32745339fb181560a1d78bb8b
         reset_button_id = game_id;
         game_id++;
         texture = LoadTexture("C:/Users/Ellev/CLionProjects/yazy/Data/dice1.png");
@@ -48,8 +53,9 @@ public:
             [this]() {
                 reset_game();
             }, 
-            &game, 
-            reset_button_id
+            game, 
+            reset_button_id,
+            texture
         );
 
         // Spawn initial box
@@ -79,7 +85,7 @@ private:
                 spawn_box();
                 spawn_box();  // Spawn next box immediately
             }, 
-            &game, 
+            game, 
             id,
             texture
         );
