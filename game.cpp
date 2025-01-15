@@ -11,7 +11,7 @@ Game::Game()
 
 void Game::init()
 {
-    InitWindow(960, 540, "Yazy Game :)");
+    InitWindow(800, 600, "Yazy Game :)");
     SetTargetFPS(60);
 }
 
