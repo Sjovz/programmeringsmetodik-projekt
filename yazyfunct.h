@@ -16,10 +16,10 @@ public:
 
     yazyfunct();
     void rollAllDice();
-    void rerollDice(bool reroll[5]);
+    void rerollDice(std::vector<bool> reroll_flags);
     void printDice() const;
-    int getDiceValue(int index) const;
-    const int* getDiceArray() const;
+
+    void change_flag(bool flag);
 
     //rules
     int same_number(int match, const int dice[5]);

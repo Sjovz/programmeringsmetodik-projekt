@@ -14,15 +14,16 @@ void yazyfunct::rollAllDice()
     printDice();
 }
 
-void yazyfunct::rerollDice(bool reroll[5])
+void yazyfunct::rerollDice(std::vector<bool> reroll_flags)
 {
     for(int i = 0; i < 5; ++i)
     {
-        if(reroll[i])
+        if(reroll_flags[i])
           {
             dice[i] = rand() % 6 + 1;
           }
     }
+    printDice();
 }
 
 void yazyfunct::printDice() const
@@ -74,17 +75,10 @@ int yazyfunct::yazy(int dice[5])
     else 
         return 0;
 }
+void yazyfunct::change_flag(bool flag) {
+    flag = !flag;
+    std::cout << "Roll dice set to : " << flag << std::endl;
 
-int yazyfunct::getDiceValue(int index) const {
-    if (index >= 0 && index < 5) {
-        return dice[index];
-    }
-    std::cout << index << " is out of range" << std::endl;
-    return 1; // Default value if index is out of range
-}
-
-const int* yazyfunct::getDiceArray() const {
-    return dice;
 }
 
 
