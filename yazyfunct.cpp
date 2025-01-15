@@ -76,5 +76,103 @@ int yazyfunct::yazy(int dice[5])
         return 0;
 }
 
+void yazyfunct::saveOnesScore() {
+    ones_score = same_number(1, dice);
+    std::cout << "Ones score saved: " << ones_score << std::endl;
+}
 
+void yazyfunct::saveTwosScore() {
+    twos_score = same_number(2, dice);
+    std::cout << "Twos score saved: " << twos_score << std::endl;
+}
+
+void yazyfunct::saveThreesScore() {
+    threes_score = same_number(3, dice);
+    std::cout << "Threes score saved: " << threes_score << std::endl;
+}
+
+void yazyfunct::saveFoursScore() {
+    fours_score = same_number(4, dice);
+    std::cout << "Fours score saved: " << fours_score << std::endl;
+}
+
+void yazyfunct::saveFivesScore() {
+    fives_score = same_number(5, dice);
+    std::cout << "Fives score saved: " << fives_score << std::endl;
+}
+
+void yazyfunct::saveSixesScore() {
+    sixes_score = same_number(6, dice);
+    std::cout << "Sixes score saved: " << sixes_score << std::endl;
+}
+
+void yazyfunct::saveThreeOfAKindScore() {
+    // Array to help count n amount of dice values present
+    int count[7] = {0}; // Indices 0 unused
+
+    // Count the occurrences of each dice value
+    for (int i = 0; i < 5; ++i) {
+        count[dice[i]]++;
+    }
+
+    // Check if any value appears 3 or more times
+    for (int i = 1; i <= 6; ++i) {
+        if (count[i] >= 3) {
+            // If valid, calculate the total score as the sum of all dice
+            three_of_a_kind_score = std::accumulate(dice, dice + 5, 0);
+            std::cout << "Three of a Kind score saved: " << three_of_a_kind_score << std::endl;
+            return;
+        }
+    }
+
+    // If no "Three of a Kind" is found, score is 0
+    three_of_a_kind_score = 0;
+    std::cout << "No Three of a Kind. Score saved: " << three_of_a_kind_score << std::endl;
+}
+
+void yazyfunct::saveFourOfAKindScore() {
+    // Array to count occurrences of each dice value (1 to 6)
+    int count[7] = {0}; // Indices 0 to 6 (0 unused)
+
+    // Count the occurrences of each dice value
+    for (int i = 0; i < 5; ++i) {
+        count[dice[i]]++;
+    }
+
+    // Check if any value appears 4 or more times
+    for (int i = 1; i <= 6; ++i) {
+        if (count[i] >= 4) {
+            // If valid, calculate the total score as the sum of all dice
+            four_of_a_kind_score = std::accumulate(dice, dice + 5, 0);
+            std::cout << "Four of a Kind score saved: " << four_of_a_kind_score << std::endl;
+            return;
+        }
+    }
+
+    // If no "Four of a Kind" is found, score is 0
+    four_of_a_kind_score = 0;
+    std::cout << "No Four of a Kind. Score saved: " << four_of_a_kind_score << std::endl;
+}
+
+void yazyfunct::saveFullHouseScore() {
+    full_house_score = house(dice);
+    std::cout << "Full House score saved: " << full_house_score << std::endl;
+}
+
+void yazyfunct::saveSmallStraightScore() {
+    int result = straight(dice);
+    small_straight_score = (result == 30) ? 30 : 0; // Save 30 points if it's a Small Straight
+    std::cout << "Small Straight score saved: " << small_straight_score << std::endl;
+}
+
+void yazyfunct::saveLargeStraightScore() {
+    int result = straight(dice);
+    large_straight_score = (result == 40) ? 40 : 0; // Save 40 points if it's a Large Straight
+    std::cout << "Large Straight score saved: " << large_straight_score << std::endl;
+}
+
+void yazyfunct::saveYazyScore() {
+    yazy_score = yazy(dice); // Call the yazy function and save the result
+    std::cout << "Yazy score saved: " << yazy_score << std::endl;
+}
 
