@@ -14,7 +14,7 @@ void yazyfunct::rollAllDice()
     printDice();
 }
 
-void yazyfunct::rerollDice(std::vector<bool> reroll_flags)
+void yazyfunct::rerollDice(std::vector<int> reroll_flags)
 {
     for(int i = 0; i < 5; ++i)
     {
