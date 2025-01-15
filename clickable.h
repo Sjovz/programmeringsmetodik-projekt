@@ -14,6 +14,7 @@
 #include "event_handler.h"
 #include "raylib.h"
 #include <functional>
+#include <string>
 
 class Event_handler;
 class Game;
