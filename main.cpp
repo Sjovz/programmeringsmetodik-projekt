@@ -40,6 +40,7 @@ public:
         
         // Create persistent reset button at top of screen
         reset_button = Rectangle{10.0f, 10.0f, 100.0f, 30.0f};
+        // cool comment        
         reset_button_id = game_id;
         game_id++;
         texture = LoadTexture("Unknown.jpeg");
@@ -48,8 +49,9 @@ public:
             [this]() {
                 reset_game();
             }, 
-            &game, 
-            reset_button_id
+            game, 
+            reset_button_id,
+            texture
         );
 
         // Spawn initial box
@@ -79,7 +81,7 @@ private:
                 spawn_box();
                 spawn_box();  // Spawn next box immediately
             }, 
-            &game, 
+            game, 
             id,
             texture
         );

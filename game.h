@@ -11,29 +11,19 @@
  ************************************************************************************/
 #ifndef GAME_H
 #define GAME_H
-
-#include "clickable.h"
-#include <functional>
-#include <vector>
-
-// right now this is both the event listener and the game itself, might want to split responsibilities 
-// figure out what should be public and private in all of the classes actually 
+#include "drawable_manager.h"
 class Game {
+friend class click_engine;
 public:
     Game();
-    void add_drawable(Drawable* drawable); 
-    void remove_drawable(Drawable* drawable); 
     void remove_drawable(int id);
-    void remove_drawables();
-    void add_action(std::function<void()> action);
-    void process_actions(); 
+    void remove_drawable(Drawable* drawable); 
     void loop();
 private:
+    Drawable_manager drawable_manager;
+    Event_handler event_handler;
     void init();
-    std::vector<std::function<void()>> deffered_actions;
-    // make this more polymorphy 
-    std::vector<Drawable*> drawables;
-    std::vector<Drawable*> drawables_to_remove;
     // add a destructor 
 };
+
 #endif 
