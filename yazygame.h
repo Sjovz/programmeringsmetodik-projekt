@@ -2,27 +2,54 @@
 #define YAZYGAME
 #include "game.h"
 #include "yazyfunct.h"
+
+///@brief Declaration of YazyGame class.
+///@details The class handles starting of the game, loading in textures, creating rectangles that acts as buttons and text.
 class YazyGame {
     private:
+    ///@Brief Referance to the main game object.
+    ///@Details This member holds a reference to the game object which handles setting up the window
     Game& game;
+
+    ///@brief YazyFunct object
+    ///@details This member holds a referance to the ýazyfunct object which helps handle game logic such as score calculation.
     yazyfunct logic;
 
-    // game logic counters 
+    // game logic counters
+    ///@brief Current round of the game.
+    ///@details This counts the current round of the game.
     int round = 1;
+
+    ///@brief Amount of rerolls remaining.
+    ///@Details Counts how many rerolls the player has left in the current run.
     int rerolls = 2;
+
+    ///@brief Flag to keep track of if a scored has been chosen for the round.
+    ///@details Helps ensure only 1 score is saved per round.
     bool score_registered = false;
 
+    ///@breif Flags for which dice to reroll.
+    ///@details A vector of booleans that indicates which dice to be rerolled and which dice to keep.
     std::vector<bool> reroll_flags = {true, true, true, true, true};
 
+    ///@breif Rectangle for the Roll All button.
+    ///details Defines a rectangle object with set position and size.
     Rectangle roll_all_button = {200, 450, 50, 20};
+
+    ///@breif Rectangle for the reroll button.
+    ///@details Defines a rectangle object with set position and size.
     Rectangle roll_some_button = {300, 450, 50, 20};
 
+    ///@brief Rectangles for the dices.
+    ///@details Defines rectangles for all the dice buttons, sets their position and size.
     Rectangle dice1_button = {50, 500, 50, 50};
     Rectangle dice2_button = {150, 500, 50, 50};
     Rectangle dice3_button = {250, 500, 50, 50};
     Rectangle dice4_button = {350, 500, 50, 50};
     Rectangle dice5_button = {450, 500, 50, 50};
 
+    ///@brief Rectangles for indicating which dice to reroll.
+    ///@details Defines rectangles for indicating
     Rectangle dice1_indicator = {50, 520, 50, 20};
     Rectangle dice2_indicator = {150, 520, 50, 20};
     Rectangle dice3_indicator = {250, 520, 50, 20};
