@@ -84,13 +84,12 @@ int yazyfunct::straight(int dice[5]) //this is ugly, but it works
     return 0;
 }
 
-// think this one might be broken
-int yazyfunct::yazy(int dice[5])
-{
-    if (std::adjacent_find(dice, dice + 5)) 
-        return 50; 
-    else 
-        return 0;
+int yazyfunct::yazy(int dice[5]) {
+    if (std::all_of(dice, dice + 5, [first = dice[0]](int value) { return value == first; })) {
+        return 50; // All dice are the same, Yahtzee!
+    } else {
+        return 0; // Not a Yahtzee
+    }
 }
 
 // a whole lotta saving functions

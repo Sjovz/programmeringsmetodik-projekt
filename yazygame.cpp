@@ -55,6 +55,7 @@ YazyGame::YazyGame(Game& game) : game(game) {
         click_engine::make_clickable(dice4_button, [this]() {reroll_flags[3] = !reroll_flags[3]; std::cout<< "Dice 4 reroll = " << reroll_flags[3] << std::endl; update_indicators();}, game, dice4_button_id, dice4_texture);
         click_engine::make_clickable(dice5_button, [this]() {reroll_flags[4] = !reroll_flags[4]; std::cout<< "Dice 5 reroll = " << reroll_flags[4] << std::endl; update_indicators();}, game, dice5_button_id, dice5_texture);
 
+        show_dice();
         // draw score types text and total sum
         click_engine::make_drawable(ones_text, ones_text_id, game, "Ones");
         click_engine::make_drawable(twoes_text, twos_text_id, game, "Twoes");
@@ -71,29 +72,26 @@ YazyGame::YazyGame(Game& game) : game(game) {
         click_engine::make_drawable(sum_text, sum_text_id, game, "Sum  =");
 
         // draw and make clickable score saving buttons
-        click_engine::make_clickable(ones_button,[this]() { if (!score_registered) logic.saveOnesScore(); show_score(); update_partial_score(ones_button_id, ones_button, logic.ones_score);}, game, ones_button_id);
-        click_engine::make_clickable(twoes_button, [this]() { if (!score_registered) logic.saveTwosScore(); show_score();update_partial_score(twos_button_id, twoes_button, logic.twos_score);}, game, twos_button_id);
-        click_engine::make_clickable(threes_button, [this]() { if (!score_registered) logic.saveThreesScore(); show_score(); update_partial_score(threes_button_id, threes_button, logic.threes_score);}, game, threes_button_id);
-        click_engine::make_clickable(fours_button, [this]() { if (!score_registered) logic.saveFoursScore(); show_score(); update_partial_score(fours_button_id, fours_button, logic.fours_score);}, game, fours_button_id);
-        click_engine::make_clickable(fives_button, [this]() { if (!score_registered) logic.saveFivesScore(); show_score(); update_partial_score(fives_button_id, fives_button, logic.fives_score);}, game, fives_button_id);
-        click_engine::make_clickable(sixes_button, [this]() { if (!score_registered) logic.saveSixesScore(); show_score(); update_partial_score(six_button_id, sixes_button, logic.sixes_score);}, game, six_button_id);
-        click_engine::make_clickable(three_of_a_kind_button, [this]() { if (!score_registered) logic.saveThreeOfAKindScore(); show_score(); update_partial_score(three_of_a_kind_button_id, three_of_a_kind_button, logic.three_of_a_kind_score);}, game, three_of_a_kind_button_id);
-        click_engine::make_clickable(four_of_a_kind_button, [this]() { if (!score_registered) logic.saveFourOfAKindScore(); show_score(); update_partial_score(four_of_a_kind_button_id, four_of_a_kind_button, logic.four_of_a_kind_score);}, game, four_of_a_kind_button_id);
-        click_engine::make_clickable(full_house_button, [this]() { if (!score_registered) logic.saveFullHouseScore(); show_score(); update_partial_score(full_house_button_id, full_house_button, logic.full_house_score);}, game, full_house_button_id);
-        click_engine::make_clickable(small_straight_button, [this]() { if (!score_registered) logic.saveSmallStraightScore(); show_score(); update_partial_score(small_straight_button_id, small_straight_button, logic.small_straight_score);}, game, small_straight_button_id);
-        click_engine::make_clickable(large_straight_button, [this]() { if (!score_registered) logic.saveLargeStraightScore(); show_score(); update_partial_score(large_straight_button_id, large_straight_button, logic.large_straight_score);}, game, large_straight_button_id);
-        click_engine::make_clickable(yazy_button, [this]() { if (!score_registered) logic.saveYazyScore(); show_score(); update_partial_score(yazy_button_id, yazy_button, logic.yazy_score);}, game, yazy_button_id);
+        click_engine::make_clickable(ones_button,[this]() { if (!score_registered) { logic.saveOnesScore(); show_score(); update_partial_score(ones_button_id, ones_button, logic.ones_score); }}, game, ones_button_id);
+        click_engine::make_clickable(twoes_button, [this]() { if (!score_registered) if (!score_registered) logic.saveTwosScore(); show_score();update_partial_score(twos_button_id, twoes_button, logic.twos_score);}, game, twos_button_id);
+        click_engine::make_clickable(threes_button, [this]() { if (!score_registered) if (!score_registered) logic.saveThreesScore(); show_score(); update_partial_score(threes_button_id, threes_button, logic.threes_score);}, game, threes_button_id);
+        click_engine::make_clickable(fours_button, [this]() { if (!score_registered) if (!score_registered) logic.saveFoursScore(); show_score(); update_partial_score(fours_button_id, fours_button, logic.fours_score);}, game, fours_button_id);
+        click_engine::make_clickable(fives_button, [this]() { if (!score_registered) if (!score_registered) logic.saveFivesScore(); show_score(); update_partial_score(fives_button_id, fives_button, logic.fives_score);}, game, fives_button_id);
+        click_engine::make_clickable(sixes_button, [this]() { if (!score_registered) if (!score_registered) logic.saveSixesScore(); show_score(); update_partial_score(six_button_id, sixes_button, logic.sixes_score);}, game, six_button_id);
+        click_engine::make_clickable(three_of_a_kind_button, [this]() { if (!score_registered) if (!score_registered) logic.saveThreeOfAKindScore(); show_score(); update_partial_score(three_of_a_kind_button_id, three_of_a_kind_button, logic.three_of_a_kind_score);}, game, three_of_a_kind_button_id);
+        click_engine::make_clickable(four_of_a_kind_button, [this]() { if (!score_registered) if (!score_registered) logic.saveFourOfAKindScore(); show_score(); update_partial_score(four_of_a_kind_button_id, four_of_a_kind_button, logic.four_of_a_kind_score);}, game, four_of_a_kind_button_id);
+        click_engine::make_clickable(full_house_button, [this]() { if (!score_registered) if (!score_registered) logic.saveFullHouseScore(); show_score(); update_partial_score(full_house_button_id, full_house_button, logic.full_house_score);}, game, full_house_button_id);
+        click_engine::make_clickable(small_straight_button, [this]() { if (!score_registered) if (!score_registered) logic.saveSmallStraightScore(); show_score(); update_partial_score(small_straight_button_id, small_straight_button, logic.small_straight_score);}, game, small_straight_button_id);
+        click_engine::make_clickable(large_straight_button, [this]() { if (!score_registered) if (!score_registered) logic.saveLargeStraightScore(); show_score(); update_partial_score(large_straight_button_id, large_straight_button, logic.large_straight_score);}, game, large_straight_button_id);
+        click_engine::make_clickable(yazy_button, [this]() { if (!score_registered) if (!score_registered) logic.saveYazyScore(); show_score(); update_partial_score(yazy_button_id, yazy_button, logic.yazy_score);}, game, yazy_button_id);
 
     };
 
     void YazyGame::update_partial_score(int id, Rectangle rect, int score)
     {
-        if(!score_registered)
-        {
-            score_registered = true;
-            game.remove_drawable(id);
-            click_engine::make_drawable(rect, id, game, std::to_string(score));
-        }
+        score_registered = true;
+        game.remove_drawable(id);
+        click_engine::make_drawable(rect, id, game, std::to_string(score));
     }
 
     void YazyGame::show_score()
@@ -144,6 +142,7 @@ YazyGame::YazyGame(Game& game) : game(game) {
         game.remove_drawable(501);
         round = 1;
         rerolls = 2;
+        score_registered = false;
         logic.reset();
         logic.rollAllDice();
         update_indicators();
