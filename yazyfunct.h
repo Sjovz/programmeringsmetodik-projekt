@@ -11,6 +11,9 @@ class yazyfunct
 {
 private:
     // persistent scores
+
+
+public:
     int ones_score = 0;
     int twos_score = 0;
     int threes_score = 0;
@@ -23,9 +26,6 @@ private:
     int small_straight_score = 0;
     int large_straight_score = 0;
     int yazy_score = 0;
-
-
-public:
     int dice[5] = {1, 2, 3, 4, 5};
     bool categoryUsed[13];
     int scores[13];
@@ -34,7 +34,7 @@ public:
     void rollAllDice();
     void rerollDice(std::vector<bool> reroll_flags);
     void printDice() const;
-
+    void reset();
     // save score functions very professional
     void saveOnesScore();
     void saveTwosScore();
@@ -56,6 +56,7 @@ public:
     int house(const int dice[5]);
     int straight(int dice[5]);
     int yazy(int dice[5]);
+    int sum_of_score();
 };
 
 #endif

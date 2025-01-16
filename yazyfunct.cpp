@@ -1,10 +1,26 @@
 #include "yazyfunct.h"
 
+
 yazyfunct::yazyfunct() : categoryUsed{false}, scores{0}
 {
     rollAllDice();
 }
 
+void yazyfunct::reset()
+{
+    ones_score = 0;
+    twos_score = 0;
+    threes_score = 0;
+    fours_score = 0;
+    fives_score = 0;
+    sixes_score = 0;
+    three_of_a_kind_score = 0;
+    four_of_a_kind_score = 0;
+    full_house_score = 0;
+    small_straight_score = 0;
+    large_straight_score = 0;
+    yazy_score = 0;
+}
 void yazyfunct::rollAllDice()
 {
     for(int &tarning : dice)
@@ -68,9 +84,10 @@ int yazyfunct::straight(int dice[5]) //this is ugly, but it works
     return 0;
 }
 
+// think this one might be broken
 int yazyfunct::yazy(int dice[5])
 {
-    if (std::adjacent_find(dice, dice + 5)) // this function incorrectly returns max score if called before first dice roll
+    if (std::adjacent_find(dice, dice + 5)) 
         return 50; 
     else 
         return 0;
@@ -177,3 +194,6 @@ void yazyfunct::saveYazyScore() {
     std::cout << "Yazy score saved: " << yazy_score << std::endl;
 }
 
+int yazyfunct::sum_of_score() {
+    return  ones_score + twos_score + threes_score + fours_score + fives_score + sixes_score + three_of_a_kind_score + four_of_a_kind_score + full_house_score + small_straight_score + large_straight_score + yazy_score;
+}

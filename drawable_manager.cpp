@@ -23,13 +23,31 @@ void Drawable_manager::remove_drawable(Drawable* drawable)
 void Drawable_manager::remove_drawables()
 {
     for (Drawable* drawable: drawables_to_remove) 
+    {
         delete drawable;  
+        drawable = nullptr;
+    }
     drawables_to_remove.clear();
 }
 
 Drawable_manager::~Drawable_manager()
 {
-    for(Drawable* drawable: drawables)
-        remove_drawable(drawable);
-    remove_drawables();
+    for (Drawable* drawable : drawables) 
+    {
+        if (drawable != nullptr)
+        {
+            delete drawable;
+            drawable = nullptr;
+        }
+    }
+    drawables.clear();
+
+    for (Drawable* drawable : drawables_to_remove) {
+        if (drawable != nullptr)
+        {
+            delete drawable;
+            drawable = nullptr;
+        }
+    }
+    drawables_to_remove.clear();
 }
