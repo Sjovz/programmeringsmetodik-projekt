@@ -26,6 +26,7 @@ class Drawable {
 friend class click_engine;
 public: 
     int get_id();
+    float rotation = 0.0f;
     // Default update does nothing
     virtual void update() {} 
     virtual void draw(); 

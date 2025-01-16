@@ -16,13 +16,16 @@ int::Drawable::get_id() {return id;}
 void::Drawable::draw()
 {
     Rectangle sourceRect = { 0, 0, (float)texture.width, (float)texture.height };
+
+    Vector2 origin = {rect.width / 2.0f, rect.height / 2.0f};
+
     if (has_texture)
     DrawTexturePro(
                     texture,
                     sourceRect,
-                    rect,      
-                    {0, 0},   
-                    0.0f,    
+                    rect,
+                    origin,
+                    rotation,
                     WHITE
                 );
     else if (has_text)
@@ -37,6 +40,10 @@ Clickable::Clickable(Rectangle rect, std::function<void()> onClick, Event_handle
 
 // maybe something else should be distrubuting the mouse position? kind of inneficient 
 void Clickable::update() {
+    rotation += 2.0f;
+    if (rotation > 360.0f) { // reset
+        rotation = 0.0f;
+    }
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) &&
         CheckCollisionPointRec(GetMousePosition(), rect)) {
         handler->add_action(onClick);
